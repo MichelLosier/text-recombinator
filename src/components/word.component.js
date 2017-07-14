@@ -6,7 +6,6 @@ import './word.component.css';
         super(props);
         this.state = { 
             selected: false,
-            value: "Word"
         };
         this.handleClick = this.handleClick.bind(this);
         this.setValue = this.setValue.bind(this);
@@ -30,13 +29,12 @@ import './word.component.css';
     }
 
     render(){
-        const wordValue = this.state.value;
         return(
             <div draggable="true" className="word">
                 { (this.state.selected) ? (
-                    <span onClick={this.handleClick}>{this.state.value}</span>
+                    <span onClick={this.handleClick}>{this.props.value}</span>
                 ) : (
-                    <input value={wordValue} name="word-input" onChange={this.setValue}/>
+                    <input value={this.props.value} name="word-input" onChange={this.props.onChange(this.value)}/>
                 )}
             </div>
         );
