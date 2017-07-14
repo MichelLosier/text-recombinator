@@ -1,17 +1,19 @@
-import React from 'react'
+import React from 'react';
+import './word.component.css';
 
-class Word extends React.Component {
+ class Word extends React.Component {
     constructor(props){
         super(props);
         this.state = { 
             selected: false,
-            value: undefined
+            value: "Word"
         };
         this.handleClick = this.handleClick.bind(this);
+        this.setValue = this.setValue.bind(this);
     }
 
     handleClick(){
-      toggleSelected();
+      this.toggleSelected();
     }
 
     toggleSelected(){
@@ -20,16 +22,25 @@ class Word extends React.Component {
         }));
     }
     
-    setValue(value){
+    setValue(event){
+        const value = event.target.value;
         this.setState({
             value: value
         });
     }
 
     render(){
-        if (selected) 
+        const wordValue = this.state.value;
         return(
-            <p>{this.state.value}</p>
-        )
+            <div draggable="true" className="word">
+                { (this.state.selected) ? (
+                    <span onClick={this.handleClick}>{this.state.value}</span>
+                ) : (
+                    <input value={wordValue} name="word-input" onChange={this.setValue}/>
+                )}
+            </div>
+        );
     }
 }
+
+export default Word;

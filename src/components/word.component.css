@@ -1,0 +1,19 @@
+.word {
+    font-size: 2rem;
+}
+
+.word input {
+    font-size: 2rem;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+    border: none;
+}
+
+.word input:focus {
+    outline:none;
+}
+
+.word:hover {
+    box-shadow: 15px 6px 20px 3px rgba(0,0,0,.10);
+}
