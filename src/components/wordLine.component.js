@@ -6,44 +6,25 @@ import Word from './word.component';
 class WordLine extends React.Component {
     constructor(props){
         super(props);
-    this.handleValueChange = this.handleValueChange.bind(this);
-    }
-    
-    lineParser(string){
-        const wordArr = string.split(" ");
-        return wordArr;
-    }
-
-
-    handleValueChange(event) {
-        const value = event.target.value;
-        const key = event.taget.key;
-        const valueArr = lineParser(value);
-        const len = valueArr.length;
-        if (len > 1) {
-            return valueArr.slice(1, (len-1)); //concat result with linearr
-        } else {
-            return valueArr; //update value at key in line arr
-        }
     }
 
     line(words){
-       const parsedWords = this.lineParser(words);
-       const wordLine = parsedWords.map((word, index) => {
+       const wordLine = words.map((word, index) => {
           return ( <Word 
                 value={word} 
+                line={this.props.key}
                 key={index}
-                onValueChange={this.handleValueChange}
-             /> 
-          )
+                onWordChange={this.props.onWordChange}
+                />)
         });
         return wordLine;
     }
 
     render(){
+        const words = this.props.words;
         return (
             <div draggable="true" >
-                {this.line(this.props.words)}
+                {this.line(words)}
             </div>
         )
     }
