@@ -12,25 +12,25 @@ class WordBoard extends React.Component {
         this.handleWordChange = this.handleWordChange.bind(this);
     }
 
-    handleWordChange(line, event){
+    handleWordChange(wordNum, lineNum, event){
         const value = event.target.value;
-        const key = event.target.key;
         const valueArr = this.lineParser(value);
         const len = valueArr.length;
         if (len > 1) {
-            const words = valueArr.slice(1, (len-1)); //concat result with linearr
-            console.log(`value: ${value}, key: ${key}, line: ${line}`);
-            this.addNewWords(words, line, key);
+            const words = valueArr.slice(1, (len));
+            console.log(`valueArr: ${valueArr}, new words: ${words}`);
+            this.addNewWords(valueArr[0], words, lineNum, wordNum);
          } else {
-            this.updateWord(valueArr, line, key);
+            this.updateWord(valueArr, lineNum, wordNum);
         }
     }
 
-    addNewWords(words, line, index){ 
-        const newWords = this.state.wordLines
-        newWords[line].splice((index+1), ...words);
-        this.setState({
-            wordLines: newWords
+    addNewWords(origWord, newWords, line, index){    
+        this.setState((prevState) => {
+            const newWordLines = prevState.wordLines;
+            newWordLines[line].splice((index+1), 0, ...newWords);
+            newWordLines[line][index] = origWord;
+            return { wordLines: newWordLines };
         });
     }
 
@@ -54,6 +54,7 @@ class WordBoard extends React.Component {
         const wordLines = lines.map((line, index) => {
             return  (<WordLine 
                 words={line} 
+                lineNum={index}
                 key={index}
                 onWordChange={this.handleWordChange}
                 />

@@ -12,8 +12,9 @@ class WordLine extends React.Component {
        const wordLine = words.map((word, index) => {
           return ( <Word 
                 value={word} 
-                line={this.props.key}
+                lineNum={this.props.lineNum}
                 key={index}
+                wordNum={index}
                 onWordChange={this.props.onWordChange}
                 />)
         });
@@ -23,7 +24,7 @@ class WordLine extends React.Component {
     render(){
         const words = this.props.words;
         return (
-            <div draggable="true" >
+            <div draggable="true" className="line">
                 {this.line(words)}
             </div>
         )

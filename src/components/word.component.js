@@ -34,7 +34,7 @@ import './word.component.css';
                 { (this.state.selected) ? (
                     <span onClick={this.handleClick}>{this.props.value}</span>
                 ) : (
-                    <input value={this.props.value} name="word-input" onChange={(e) => this.props.onWordChange(this.props.line, e)}/>
+                    <input value={this.props.value} name="word-input" onChange={(e) => this.props.onWordChange(this.props.wordNum, this.props.lineNum, e)}/>
                 )}
             </div>
         );
