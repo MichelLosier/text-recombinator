@@ -7,7 +7,8 @@ class WordBoard extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            wordLines: [["Word"]]
+            wordLines: [["Word"]],
+            selectedWord: {line: 0, index: 0}
         }
         this.handleWordChange = this.handleWordChange.bind(this);
     }
@@ -30,6 +31,7 @@ class WordBoard extends React.Component {
             const newWordLines = prevState.wordLines;
             newWordLines[line].splice((index+1), 0, ...newWords);
             newWordLines[line][index] = origWord;
+            this.setSelectedWord(line, index);
             return { wordLines: newWordLines };
         });
     }
@@ -42,6 +44,11 @@ class WordBoard extends React.Component {
         });
     }
 
+    setSelectedWord(line, index){
+        this.setState({line: line, index: index});
+    }
+
+
     lineParser(string){
         const wordArr = string.split(" ");
         return wordArr;
@@ -51,16 +58,18 @@ class WordBoard extends React.Component {
 //rendering
 
     createLines(lines) {
-        const wordLines = lines.map((line, index) => {
+       return lines.map((line, index) => {
+            const selected = (line === this.state.selectedWord.line) ? true : false;
             return  (<WordLine 
                 words={line} 
                 lineNum={index}
                 key={index}
                 onWordChange={this.handleWordChange}
+                selectedWord={this.state.selectedWord}
+                selected={selected}
                 />
             )
         });
-        return wordLines;
     }
 
     render(){

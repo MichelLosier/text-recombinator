@@ -10,12 +10,16 @@ class WordLine extends React.Component {
 
     line(words){
        const wordLine = words.map((word, index) => {
+          const selected = ( word === this.props.selectedWord.index 
+            && this.props.selected ) ? true : false;
+
           return ( <Word 
-                value={word} 
+                word={word} 
                 lineNum={this.props.lineNum}
                 key={index}
                 wordNum={index}
                 onWordChange={this.props.onWordChange}
+                selected={selected}
                 />)
         });
         return wordLine;
