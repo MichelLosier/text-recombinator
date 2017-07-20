@@ -4,39 +4,35 @@ import './word.component.css';
  class Word extends React.Component {
     constructor(props){
         super(props);
-        this.state = { 
-            selected: false,
-            value: "Word"
-        };
+
         this.handleClick = this.handleClick.bind(this);
-        this.setValue = this.setValue.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+    }
+    
+    componentDidMount(){
+        this.setFocus.focus();
     }
 
     handleClick(){
       this.toggleSelected();
     }
 
-    toggleSelected(){
-        this.setState(prevState => ({
-            selected: !prevState.selected
-        }));
-    }
-    
-    setValue(event){
-        const value = event.target.value;
-        this.setState({
-            value: value
-        });
+    handleChange(e){
+      this.props.onWordChange(this.props.wordNum, this.props.lineNum, e)
     }
 
     render(){
-        const wordValue = this.state.value;
         return(
             <div draggable="true" className="word">
-                { (this.state.selected) ? (
-                    <span onClick={this.handleClick}>{this.state.value}</span>
+                { (this.props.selected) ? (
+                    <span onClick={this.handleClick}>{this.props.value}</span>
                 ) : (
-                    <input value={wordValue} name="word-input" onChange={this.setValue}/>
+                    <input 
+                        value={this.props.word} 
+                        name="word-input" 
+                        onChange={this.handleChange}
+                        ref={(ref) => this.setFocus = ref}
+                    />
                 )}
             </div>
         );

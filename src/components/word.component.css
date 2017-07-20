@@ -1,6 +1,10 @@
 .word {
     font-size: 2rem;
 }
+div.word {
+    padding: 1rem;
+    display:inline-block;
+}
 
 .word input {
     font-size: 2rem;
