@@ -15,26 +15,45 @@ class WordBoard extends React.Component {
 
     handleWordChange(wordNum, lineNum, event){
         const value = event.target.value;
-        const valueArr = this.lineParser(value);
-        const len = valueArr.length;
-        if (len > 1) {
-            const words = valueArr.slice(1, (len));
-            console.log(`valueArr: ${valueArr}, new words: ${words}`);
-            this.addNewWords(valueArr[0], words, lineNum, wordNum);
-         } else {
-            this.updateWord(valueArr, lineNum, wordNum);
+        const wordArr = value.split(" ");
+        const lineArr = value.split("/\n/");
+        
+        if (wordArr.length > 1) {
+            const words = wordArr.slice(1);
+            console.log(`wordArr: ${wordArr}, new words: ${words}`);
+            this.addNewWords(words, lineNum, (wordNum +1));
+            this.updateWord(wordArr[0], lineNum, wordNum);
+        } else if (lineArr.length > 1) {
+            this.addNewWords(lineArr.slice(1), (lineNum +1), 0);
+            this.updateWord(lineArr[0], lineNum, wordNum);
+        } else {
+            this.updateWord(wordArr, lineNum, wordNum);
         }
+
     }
 
-    addNewWords(origWord, newWords, line, index){    
+    addNewWords(newWords, line, index){    
         this.setState((prevState) => {
-            const newWordLines = prevState.wordLines;
-            newWordLines[line].splice((index+1), 0, ...newWords);
-            newWordLines[line][index] = origWord;
+            const wordLines = prevState.wordLines;
+            if(line > (wordLines.length -1)){
+                wordLines[line]=[];
+            }
+            wordLines[line].splice(index, 0, ...newWords);
             this.setSelectedWord(line, index);
-            return { wordLines: newWordLines };
+            return { wordLines: wordLines };
         });
     }
+
+    addNewLine(line, index){
+       this.setState((prevState) => {
+        const wordLines = prevState.wordLines; //get wordlines
+        const newLine = wordLines[line].slice((index)); //slice get the word at index of line
+       
+        wordLines.splice((line + 1), 0, ...newLine); //add at new line with newline
+        wordLines[line].splice((index + 1)) // 
+        return { wordLines: wordLines };
+       });
+   }
 
     updateWord(word, line, index){
         const updatedWordLines = this.state.wordLines;
@@ -45,13 +64,9 @@ class WordBoard extends React.Component {
     }
 
     setSelectedWord(line, index){
-        this.setState({line: line, index: index});
-    }
-
-
-    lineParser(string){
-        const wordArr = string.split(" ");
-        return wordArr;
+        this.setState({
+            selectedWord: {line: line, index: index}
+        });
     }
 
 
