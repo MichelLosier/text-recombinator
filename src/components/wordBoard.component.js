@@ -16,7 +16,7 @@ class WordBoard extends React.Component {
     handleWordChange(wordNum, lineNum, event){
         const value = event.target.value;
         const wordArr = value.split(" ");
-        const lineArr = value.split("/\n/");
+        const lineArr = value.split("\n");
         
         if (wordArr.length > 1) {
             const words = wordArr.slice(1);
