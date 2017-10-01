@@ -7,6 +7,7 @@ import './word.component.css';
 
         this.handleClick = this.handleClick.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.dragStartHandler = this.dragStartHandler.bind(this);
     }
     
     componentDidMount(){
@@ -21,9 +22,20 @@ import './word.component.css';
       this.props.onWordChange(this.props.wordNum, this.props.lineNum, e)
     }
 
+    dragStartHandler(ev){
+        const wordNum = this.props.wordNum;
+        const lineNum = this.props.lineNum
+        ev.dataTransfer.setData("wordNum", wordNum);
+        ev.dataTransfer.setData("lineNum", lineNum);
+    }
+
     render(){
         return(
-            <div draggable="true" className="word">
+            <div 
+                draggable="true" 
+                className="word"
+                onDragStart={this.dragStartHandler}
+            >
                 { (this.props.selected) ? (
                     <span onClick={this.handleClick}>{this.props.value}</span>
                 ) : (

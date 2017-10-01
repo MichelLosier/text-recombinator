@@ -3,6 +3,24 @@ import './wordBoard.component.css';
 
 import WordLine from './wordLine.component'
 
+//TODO
+// ondragstart
+// 	state.drag=true
+// 	state.dropPlaceHolder =
+
+// 	get element at cursor
+// 		that is of class word
+// 		add element at index +1
+// 		document.elementFromPoint(,)
+// 			.class()
+// 		get wordNum and lineNum
+// 		insert dropPlaceHolder at +1
+
+// ondragend
+// 	state.drag=false
+// 	state.PlaceHolder=null
+// 		remove placeHolder in wordlines
+
 class WordBoard extends React.Component {
     constructor(props){
         super(props);
@@ -11,6 +29,7 @@ class WordBoard extends React.Component {
             selectedWord: {line: 0, index: 0}
         }
         this.handleWordChange = this.handleWordChange.bind(this);
+        this.handleWordMove = this.handleWordMove.bind(this);
     }
 
     handleWordChange(wordNum, lineNum, event){
@@ -69,6 +88,27 @@ class WordBoard extends React.Component {
         });
     }
 
+    removeWord(line, index){
+        this.setState((prevState) => {
+            const wordLines = prevState.wordLines;
+            wordLines[line].splice(index, 1);
+            return { wordLines: wordLines}
+        })
+    }
+
+    insertWord(line, index, content){
+        this.setState((prevState) => {
+            const wordLines = prevState.wordLines;
+            wordLines[line].splice(index, 0, content);
+            return { wordLines: wordLines}
+        })
+    }
+    //coordinate is [line, index]
+    handleWordMove(startCoordinate, dropCoordinate){
+        const content = this.state.wordLines[startCoordinate[0]][startCoordinate[1]]
+        this.removeWord(startCoordinate[0], startCoordinate[1]);
+        this.insertWord(dropCoordinate[0], dropCoordinate[1], content);
+    }
 
 //rendering
 
@@ -80,6 +120,7 @@ class WordBoard extends React.Component {
                 lineNum={index}
                 key={index}
                 onWordChange={this.handleWordChange}
+                onWordMove={this.handleWordMove}
                 selectedWord={this.state.selectedWord}
                 selected={selected}
                 />
