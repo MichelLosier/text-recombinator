@@ -1,10 +1,11 @@
 import React from 'react';
 import './word.component.css';
+import DragTrack from '../services/drag-tracking.service'
 
  class Word extends React.Component {
     constructor(props){
         super(props);
-
+        this.dragTrack = new DragTrack();
         this.handleClick = this.handleClick.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.dragStartHandler = this.dragStartHandler.bind(this);
@@ -12,6 +13,13 @@ import './word.component.css';
     
     componentDidMount(){
         this.setFocus.focus();
+        this.dragTrack.onMouseMove();
+        setInterval(this.logDragTrack, 1000);
+    }
+    logDragTrack = () => {
+        const coord = this.dragTrack.mouseCoordinates();
+        const elements = this.dragTrack.elementAtMousePoint();
+        console.log(`Coordinates: ${JSON.stringify(coord)}, \n Elements: ${JSON.stringify(elements)}`);
     }
 
     handleClick(){
