@@ -18,8 +18,8 @@ import DragTrack from '../services/drag-tracking.service'
     }
     logDragTrack = () => {
         const coord = this.dragTrack.mouseCoordinates();
-        const elements = this.dragTrack.elementAtMousePoint();
-        console.log(`Coordinates: ${JSON.stringify(coord)}, \n Elements: ${JSON.stringify(elements)}`);
+        const elements = this.dragTrack.elementsAtMousePoint();
+        console.log(`Coordinates: ${coord.toString()}, \n Elements: ${elements.toString()}`);
     }
 
     handleClick(){
@@ -37,12 +37,19 @@ import DragTrack from '../services/drag-tracking.service'
         ev.dataTransfer.setData("lineNum", lineNum);
     }
 
+    dragHandler(e){
+
+    }
+
+
+
     render(){
         return(
             <div 
                 draggable="true" 
                 className="word"
                 onDragStart={this.dragStartHandler}
+                onDrag={this.dragHandler}
             >
                 { (this.props.selected) ? (
                     <span onClick={this.handleClick}>{this.props.value}</span>
