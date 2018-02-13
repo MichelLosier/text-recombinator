@@ -1,9 +1,9 @@
 import React from 'react';
-import './wordLine.component.css';
+import './card-container.component.css';
 
-import Word from './word.component';
+import Card from './card.component';
 
-class WordLine extends React.Component {
+class CardContainer extends React.Component {
     constructor(props){
         super(props);
         this.drop_handler = this.drop_handler.bind(this);
@@ -14,7 +14,7 @@ class WordLine extends React.Component {
           const selected = ( word === this.props.selectedWord.index 
             && this.props.selected ) ? true : false;
 
-          return ( <Word 
+          return ( <Card 
                 word={word} 
                 lineNum={this.props.lineNum}
                 key={index}
@@ -55,4 +55,4 @@ class WordLine extends React.Component {
     }
 }
 
-export default WordLine;
+export default CardContainer;

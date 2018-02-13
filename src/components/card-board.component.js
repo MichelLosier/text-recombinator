@@ -1,7 +1,7 @@
 import React from 'react';
-import './wordBoard.component.css';
+import './card-board.component.css';
 
-import WordLine from './wordLine.component'
+import CardContainer from './card-container.component'
 
 //TODO
 // ondragstart
@@ -21,7 +21,7 @@ import WordLine from './wordLine.component'
 // 	state.PlaceHolder=null
 // 		remove placeHolder in wordlines
 
-class WordBoard extends React.Component {
+class CardBoard extends React.Component {
     constructor(props){
         super(props);
         this.state = {
@@ -115,7 +115,7 @@ class WordBoard extends React.Component {
     createLines(lines) {
        return lines.map((line, index) => {
             const selected = (line === this.state.selectedWord.line) ? true : false;
-            return  (<WordLine 
+            return  (<CardContainer 
                 words={line} 
                 lineNum={index}
                 key={index}
@@ -138,4 +138,4 @@ class WordBoard extends React.Component {
     }
 }
 
-export default WordBoard;
+export default CardBoard;
