@@ -1,29 +1,20 @@
 import React from 'react';
-import './word.component.css';
 
- class Word extends React.Component {
+class WordCard extends React.Component {
     constructor(props){
-        super(props);
-
-        this.handleClick = this.handleClick.bind(this);
-        this.handleChange = this.handleChange.bind(this);
+        super(props)
     }
-    
     componentDidMount(){
         this.setFocus.focus();
     }
 
-    handleClick(){
-      this.toggleSelected();
-    }
-
-    handleChange(e){
-      this.props.onWordChange(this.props.wordNum, this.props.lineNum, e)
-    }
+    handleChange = (e) => {
+        this.props.onChange(this.props.wordNum, this.props.lineNum, e)
+      }
 
     render(){
         return(
-            <div draggable="true" className="word">
+            <div>
                 { (this.props.selected) ? (
                     <span onClick={this.handleClick}>{this.props.value}</span>
                 ) : (
@@ -36,8 +27,8 @@ import './word.component.css';
                     />
                 )}
             </div>
-        );
+        )
     }
 }
 
-export default Word;
+export default WordCard;

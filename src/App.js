@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import WordBoard from './components/wordBoard.component'
+import CardBoard from './components/card-board.component'
 import './App.css';
 
 class App extends Component {
   render() {
     return (
       <div className="App">
-        <WordBoard/>
+        <CardBoard/>
       </div>
     );
   }
