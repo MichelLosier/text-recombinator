@@ -25,8 +25,8 @@ class CardBoard extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            wordLines: [["Word"]],
-            selectedWord: {line: 0, index: 0}
+            collections: [["Word"]],
+            selectedCard: {line: 0, index: 0}
         }
         this.handleWordChange = this.handleWordChange.bind(this);
         this.handleWordMove = this.handleWordMove.bind(this);
@@ -53,32 +53,32 @@ class CardBoard extends React.Component {
 
     addNewWords(newWords, line, index){    
         this.setState((prevState) => {
-            const wordLines = prevState.wordLines;
+            const wordLines = prevState.collections;
             if(line > (wordLines.length -1)){
                 wordLines[line]=[];
             }
             wordLines[line].splice(index, 0, ...newWords);
             this.setSelectedWord(line, index);
-            return { wordLines: wordLines };
+            return { collections: wordLines };
         });
     }
 
     addNewLine(line, index){
        this.setState((prevState) => {
-        const wordLines = prevState.wordLines; //get wordlines
+        const wordLines = prevState.collections; //get wordlines
         const newLine = wordLines[line].slice((index)); //slice get the word at index of line
        
         wordLines.splice((line + 1), 0, ...newLine); //add at new line with newline
         wordLines[line].splice((index + 1)) // 
-        return { wordLines: wordLines };
+        return { collections: wordLines };
        });
    }
 
     updateWord(word, line, index){
-        const updatedWordLines = this.state.wordLines;
+        const updatedWordLines = this.state.collections;
         updatedWordLines[line][index] = word;
         this.setState({
-            wordLines: updatedWordLines
+            collections: updatedWordLines
         });
     }
 
@@ -90,38 +90,38 @@ class CardBoard extends React.Component {
 
     removeWord(line, index){
         this.setState((prevState) => {
-            const wordLines = prevState.wordLines;
+            const wordLines = prevState.collections;
             wordLines[line].splice(index, 1);
-            return { wordLines: wordLines}
+            return {collections: wordLines}
         })
     }
 
     insertWord(line, index, content){
         this.setState((prevState) => {
-            const wordLines = prevState.wordLines;
+            const wordLines = prevState.collections;
             wordLines[line].splice(index, 0, content);
-            return { wordLines: wordLines}
+            return { collections: wordLines}
         })
     }
     //coordinate is [line, index]
     handleWordMove(startCoordinate, dropCoordinate){
-        const content = this.state.wordLines[startCoordinate[0]][startCoordinate[1]]
+        const content = this.state.collections[startCoordinate[0]][startCoordinate[1]]
         this.removeWord(startCoordinate[0], startCoordinate[1]);
         this.insertWord(dropCoordinate[0], dropCoordinate[1], content);
     }
 
 //rendering
 
-    createLines(lines) {
+    createLines = (lines) => {
        return lines.map((line, index) => {
-            const selected = (line === this.state.selectedWord.line) ? true : false;
+            const selected = (line === this.state.selectedCard.line) ? true : false;
             return  (<CardContainer 
                 words={line} 
                 lineNum={index}
                 key={index}
                 onWordChange={this.handleWordChange}
                 onWordMove={this.handleWordMove}
-                selectedWord={this.state.selectedWord}
+                selectedCard={this.state.selectedCard}
                 selected={selected}
                 />
             )
@@ -129,7 +129,7 @@ class CardBoard extends React.Component {
     }
 
     render(){
-        const currentLines = this.state.wordLines;
+        const currentLines = this.state.collections;
         return (
             <div className="board">
                 {this.createLines(currentLines)}

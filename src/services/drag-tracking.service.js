@@ -19,10 +19,15 @@ class DragTrack {
         return document.elementsFromPoint(this.x, this.y)
     }
 
-    findElementAtMousePointByClass = (className) => {
+    findDraggableElementAtMousePoint = (className) => {
         const elements = this.elementsAtMousePoint();
-        //TODO filter condition for elements that have className and is draggable
-        //Return reference
+        const foundElems = elements.filter(function(element){
+            if (element.hasAttribute('draggable')){
+                return true;
+            }
+            return false;
+        });
+        return foundElems[0];
     }
 
 }

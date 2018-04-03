@@ -1,6 +1,7 @@
 import React from 'react';
 import './card.component.css';
 import DragTrack from '../services/drag-tracking.service'
+import WordCard from './word-card.component'
 
  class Card extends React.Component {
     constructor(props){
@@ -9,7 +10,7 @@ import DragTrack from '../services/drag-tracking.service'
     }
     
     componentDidMount(){
-        this.setFocus.focus();
+      
         this.dragTrack.onMouseMove();
         setInterval(this.logDragTrack, 1000);
     }
@@ -23,9 +24,7 @@ import DragTrack from '../services/drag-tracking.service'
       this.toggleSelected();
     }
 
-    handleChange = (e) => {
-      this.props.onWordChange(this.props.wordNum, this.props.lineNum, e)
-    }
+
 
     dragStartHandler = (ev) =>{
         const wordNum = this.props.wordNum;
@@ -38,7 +37,14 @@ import DragTrack from '../services/drag-tracking.service'
 
     }
 
+    drop_handler = (ev) => {
+        ev.preventDefault();
+        const wordNum = ev.dataTransfer.getData("wordNum");
+        const lineNum = ev.dataTransfer.getData("lineNum");
+        console.log(`data transfer ${wordNum}, ${lineNum}`);
+        this.props.onWordMove([lineNum, wordNum], [this.props.lineNum, this.props.wordNum]);
 
+    }
 
     render(){
         return(
@@ -47,8 +53,15 @@ import DragTrack from '../services/drag-tracking.service'
                 className="word"
                 onDragStart={this.dragStartHandler}
                 onDrag={this.dragHandler}
+                onDrop={this.drop_handler}
             >
-                {props.children}
+                {/* {this.props.children} */}
+                <WordCard
+                    onChange={this.props.onWordChange}
+                    word={this.props.word}
+                    wordNum={this.props.wordNum}
+                    lineNum={this.props.lineNum}
+                />
             </div>
         );
     }
